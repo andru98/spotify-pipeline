@@ -19,6 +19,7 @@ class PipelineConfig(BaseSettings):
     batch_size: int = Field(default=50)
     max_retries: int = Field(default=3)
 
+
     @property
     def is_production(self) -> bool:
         return self.environment == "production"
