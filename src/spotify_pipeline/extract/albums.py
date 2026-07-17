@@ -7,7 +7,7 @@ logger = get_logger(__name__)
 def extract_albums(items: list) -> list:
     album_list = []
 
-    for track in items:          # ← no item["track"] now
+    for track in items:
         album = track["album"]
         album_dict = {
             "album_id":     album["id"],

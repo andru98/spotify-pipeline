@@ -8,7 +8,7 @@ logger = get_logger(__name__)
 def extract_artists(items: list) -> list:
     artist_list = []
 
-    for track in items:          # ← no item["track"] now
+    for track in items:
         for artist in track["artists"]:
             artist_dict = {
                 "artist_id":    artist["id"],
