@@ -7,7 +7,7 @@ logger = get_logger(__name__)
 def extract_tracks(items: list) -> list:
     track_list = []
 
-    for track in items:          # ← no item["track"] now
+    for track in items:
         track_dict = {
             "track_id":    track["id"],
             "name":        track["name"],

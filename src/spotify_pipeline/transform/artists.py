@@ -32,7 +32,7 @@ def save_artists_silver(df: pd.DataFrame) -> str:
         f"artists.parquet"
     )
     buffer = io.BytesIO()
-    df.to_parquet(buffer,index=False)
+    df.to_parquet(buffer , index=False)
     buffer.seek(0)
 
     s3 = boto3.client(
@@ -51,3 +51,18 @@ def save_artists_silver(df: pd.DataFrame) -> str:
 
     logger.info(f"Saved silver artists to s3://{config.aws_bucket_transformed}/{key}")
     return key
+if __name__ == "__main__":
+    from spotify_pipeline.extract.auth import get_spotify_token
+    from spotify_pipeline.utils.spotify_client import get_tracks
+    from spotify_pipeline.extract.albums import extract_albums
+
+    token = get_spotify_token()
+    items = get_tracks(token)
+    albums = extract_albums(items)
+
+    df = transform_artists(albums)
+    print(df.head())
+    print(df.dtypes)
+
+    key = save_artists_silver(df)
+    print(f'Saved to: {key}')
