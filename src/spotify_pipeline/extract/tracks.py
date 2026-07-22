@@ -15,7 +15,8 @@ def extract_tracks(items: list) -> list:
             "popularity":  track.get("popularity", 0),
             "url":         track["external_urls"]["spotify"],
             "album_id":    track["album"]["id"],
-            "artist_id":   track["album"]["artists"][0]["id"]
+            "artist_id":   track["album"]["artists"][0]["id"],
+            "explicit":    track.get("explicit", 0)
         }
         track_list.append(track_dict)
 
