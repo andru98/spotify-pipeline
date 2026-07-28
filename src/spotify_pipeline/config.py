@@ -18,6 +18,10 @@ class PipelineConfig(BaseSettings):
     environment: str = Field(default="development")
     batch_size: int = Field(default=50)
     max_retries: int = Field(default=3)
+    spotify_search_queries: list = Field(
+        default=["pop", "hip hop", "rock", "r&b", "country"],
+        description = "Search queries for Spotify API"
+    )
 
 
     @property
