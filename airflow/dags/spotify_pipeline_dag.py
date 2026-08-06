@@ -49,7 +49,7 @@ def spotify_pipeline():
         save_to_bronze(data["tracks"], "tracks")
 
     @task()
-    def transform_silver(data: dict) -> None:
+    def transform_silver(data: dict) -> str:
         from spotify_pipeline.transform.artists import transform_artists, save_artists_silver
         from spotify_pipeline.transform.albums import transform_albums, save_albums_silver
         from spotify_pipeline.transform.tracks import transform_tracks, save_tracks_silver
@@ -57,9 +57,10 @@ def spotify_pipeline():
         save_artists_silver(transform_artists(data["artists"]))
         save_albums_silver(transform_albums(data["albums"]))
         save_tracks_silver(transform_tracks(data["tracks"]))
+        return "silver_complete"
 
     @task()
-    def build_gold() -> None:
+    def build_gold(status: str) -> None:
         from spotify_pipeline.gold.top_artists import top_artists
         from spotify_pipeline.gold.album_stats import album_stats
         from spotify_pipeline.gold.explicit_analysis import build_explicit_analysis
@@ -73,8 +74,8 @@ def spotify_pipeline():
     token = get_token()
     data = extract(token)
     load_bronze(data)
-    transform_silver(data)
-    build_gold()
+    status = transform_silver(data)
+    build_gold(status)
 
 #Dag instantiation
 spotify_pipeline()
