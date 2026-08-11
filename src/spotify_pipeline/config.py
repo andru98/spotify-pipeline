@@ -6,6 +6,10 @@ class PipelineConfig(BaseSettings):
     # Spotify API
     spotify_client_id: str = Field(description="Spotify Client ID")
     spotify_client_secret: str = Field(description="Spotify Client Secret")
+    spotify_search_queries: list = Field(
+        default=["pop", "hip hop", "rock", "r&b", "country"],
+        description="Search queries for Spotify API"
+    )
 
     # AWS
     aws_bucket_raw: str = Field(description="S3 Bronze bucket")
