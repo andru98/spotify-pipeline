@@ -67,14 +67,13 @@ def top_artists()-> pd.DataFrame:
           explicit_count=("explicit", "sum")
     ).reset_index()
     print(agg_df.columns.tolist())
-
-    # Filter FIRST → remove 0 track_count rows
-    agg_df = agg_df[agg_df["track_count"] > 0]
-
-    # NOW divide safely — no zeros possible
-    agg_df["explicit_pct"] = (
-            agg_df["explicit_count"] / agg_df["track_count"] * 100
-    ).round(2)
+    print("track_count values:", agg_df["track_count"].values)
+    print("explicit_count values:", agg_df["explicit_count"].values)
+    print("any zero track_count:", (agg_df["track_count"] == 0).any())
+    agg_df["explicit_pct"] = np.where(
+         agg_df["track_count"]>0,
+        (agg_df["explicit_count"]/agg_df["track_count"] * 100).round(2), 0)
+    agg_df = agg_df[agg_df["track_count"]>0]
     final_df = agg_df.sort_values("track_count", ascending=False)
     return final_df
 

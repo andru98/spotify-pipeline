@@ -25,7 +25,7 @@ def check_row_count(df: pd.DataFrame, entity: str, min_rows: int,) -> None:
     elif row_count < min_rows:
         logger.warning(f"[{entity}] has {row_count} rows which is lower than {min_rows}")
     else:
-        logger.info(f"[{entity}] has {row_count} rows!")
+        logger.warning(f"[{entity}] has {row_count} rows!")
 
 def run_quality_checks(df, entity, key, min_rows=5):
     check_row_count(df, entity, min_rows)
