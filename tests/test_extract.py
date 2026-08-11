@@ -71,9 +71,8 @@ def test_extract_artists_returns_list():
 def test_extract_artists_deduplicates():
     """extract_artists removes duplicate artist_ids."""
     items = make_fake_items()
-    # Both tracks have same artist (artist1)
     result = extract_artists(items)
-    assert len(result) == 1  # deduplicated ✅
+    assert len(result) == 1  # deduplicated
 
 
 def test_extract_artists_correct_fields():
@@ -99,7 +98,7 @@ def test_extract_albums_correct_count():
     """extract_albums returns correct number of unique albums."""
     items = make_fake_items()
     result = extract_albums(items)
-    assert len(result) == 2  # two different albums ✅
+    assert len(result) == 2
 
 
 def test_extract_albums_correct_fields():
@@ -125,7 +124,7 @@ def test_extract_tracks_correct_count():
     """extract_tracks returns all tracks."""
     items = make_fake_items()
     result = extract_tracks(items)
-    assert len(result) == 2  # two tracks ✅
+    assert len(result) == 2
 
 
 def test_extract_tracks_correct_fields():
