@@ -7,4 +7,7 @@ __pycache__/
 dist/
 .DS_Store
 *.log
-.ruff_cache/
+.ruff_cache/# Deployment artifacts
+lambda_code_only/
+lambda_package/
+*.zip
