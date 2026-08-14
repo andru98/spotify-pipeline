@@ -6,16 +6,11 @@ from datetime import datetime
 from spotify_pipeline.config import config
 from spotify_pipeline.utils.logger import get_logger
 from spotify_pipeline.utils.decorators import log_execution, retry
-
+from spotify_pipeline.load.s3 import get_s3_client
 logger = get_logger(__name__)
 
 def read_silver(entity: str) -> pd.DataFrame:
-    s3 = boto3.client(
-        "s3",
-        aws_access_key_id=config.aws_access_key_id,
-        aws_secret_access_key=config.aws_secret_access_key,
-        region_name=config.aws_region
-    )
+    s3 = get_s3_client()
     response = s3.list_objects_v2(
         Bucket=config.aws_bucket_transformed,
         Prefix=f"silver/{entity}/"

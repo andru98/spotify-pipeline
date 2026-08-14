@@ -6,7 +6,7 @@ from spotify_pipeline.utils.logger import get_logger
 from spotify_pipeline.utils.decorators import log_execution,retry
 from spotify_pipeline.transform.quality import run_quality_checks
 from spotify_pipeline.config import config
-
+from spotify_pipeline.load.s3 import get_s3_client
 logger = get_logger(__name__)
 
 @log_execution
@@ -32,12 +32,7 @@ def save_albums_silver(df: pd.DataFrame) -> str:
         f"{now.year}/{now.month:02d}/{now.day:02d}/"
         f"albums.parquet"
     )
-    s3 = boto3.client(
-        "s3",
-        region_name=config.aws_region,
-        aws_access_key_id=config.aws_access_key_id,
-        aws_secret_access_key=config.aws_secret_access_key
-    )
+    s3 = get_s3_client()
     buffer = io.BytesIO()
     df.to_parquet(buffer, index=False)
     buffer.seek(0)
