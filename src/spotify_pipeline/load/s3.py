@@ -64,7 +64,7 @@ def save_to_bronze(data: list, entity: str) -> str:
 
 @log_execution
 @retry(max_attempts=3, exceptions=(Exception,))
-def read_bronze(entity: str) -> list:
+def read_bronze(entity: str, date:str = None) -> list:
     """
     Read latest Bronze JSON file from S3 for given entity.
     Returns list of raw records for transformation.
@@ -72,7 +72,15 @@ def read_bronze(entity: str) -> list:
     Path: s3://bucket/bronze/entity/YYYY/MM/DD/HHMMSS.json
     """
     s3 = get_s3_client()
-    now = datetime.utcnow()
+    if date:
+        year, month, day = date.split('-')
+        prefix = f"bronze/{entity}/{year}/{month}/{day}/"
+    else:
+        now = datetime.utcnow()
+        prefix = (
+            f"bronze/{entity}/"
+            f"{now.year}/{now.month:02d}/{now.day:02d}/"
+        )
 
     # Build today's partition prefix
     prefix = (
