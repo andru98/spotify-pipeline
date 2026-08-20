@@ -50,7 +50,7 @@ def album_stats():
     albums_df = albums_df.rename(columns={"name": "album_name"})
     merged_df = pd.merge(albums_df, tracks_df, on = "album_id", how = "inner")
     agg_df = merged_df.groupby(
-        ["album_id", "name", "release_date"]
+        ["album_id", "album_name", "release_date"]
     ).agg(
         total_tracks = ("total_tracks", "first"),
         track_count = ("track_id", "count"),

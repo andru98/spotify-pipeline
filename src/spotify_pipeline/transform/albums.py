@@ -14,7 +14,7 @@ def transform_albums(albums_list: list) -> pd.DataFrame:
     df = pd.DataFrame(albums_list)
     df = df.dropna(subset=["album_id"])
     df = df.drop_duplicates(subset=["album_id"])
-    df["release_date"] = pd.to_datetime(df["release_date"], errors ="coerce")
+    df["release_date"] = df["release_date"].astype(str)
     df["name"] = df["name"].str.strip()
     df["external_url"] = df["url"].str.strip()
     df = df.rename(columns={"url": "spotify_url"})
