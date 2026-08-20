@@ -72,11 +72,12 @@ def read_bronze(entity: str, date:str = None) -> list:
     Path: s3://bucket/bronze/entity/YYYY/MM/DD/HHMMSS.json
     """
     s3 = get_s3_client()
+    now = datetime.utcnow()
     if date:
         year, month, day = date.split('-')
         prefix = f"bronze/{entity}/{year}/{month}/{day}/"
     else:
-        now = datetime.utcnow()
+
         prefix = (
             f"bronze/{entity}/"
             f"{now.year}/{now.month:02d}/{now.day:02d}/"
